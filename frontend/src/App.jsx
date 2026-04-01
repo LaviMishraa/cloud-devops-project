@@ -13,21 +13,31 @@ function App() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      if (isLogin) {
-        const res = await API.post("/api/auth/login", form);
-        localStorage.setItem("token", res.data.token);
-        setMessage("✅ Login Successful");
-      } else {
-        await API.post("/api/auth/register", form);
-        setMessage("✅ Registration Successful");
-      }
-    } catch (err) {
-      setMessage("❌ Something went wrong");
+  console.log("🔥 FUNCTION CALLED"); // DEBUG
+
+  try {
+    if (isLogin) {
+      const res = await API.post("/auth/login", {
+        email: form.email,
+        password: form.password,
+      });
+      localStorage.setItem("token", res.data.token);
+      setMessage("✅ Login Successful");
+    } else {
+      const res = await API.post("/auth/register", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      setMessage("✅ Registration Successful");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setMessage(err.response?.data?.message || "❌ Error");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
@@ -66,9 +76,12 @@ function App() {
             }
           />
 
-          <button className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded font-semibold">
-            {isLogin ? "Login" : "Register"}
-          </button>
+          <button
+  type="submit"   // 🔥 ADD THIS
+  className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded font-semibold"
+>
+  {isLogin ? "Login" : "Register"}
+</button>
         </form>
 
         {/* Toggle Button */}
