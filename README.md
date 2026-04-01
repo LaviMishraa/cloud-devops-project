@@ -11,6 +11,10 @@ A production-ready cloud-native full-stack application with secure authenticatio
 
 ---
 
+##Login/Password
+-Login : ram@gmail.com
+-Password : 1234
+
 ## 📌 Project Overview
 
 This project demonstrates how to build and deploy a secure, scalable, and cloud-ready application using modern DevOps practices.
